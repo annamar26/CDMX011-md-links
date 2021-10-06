@@ -24,7 +24,7 @@ if(urls.includes('http')){
 
   }
   else{
-    console.error('El archivo no es md')
+    console.error('El archivo no es md, proporcione un archivo md o su ruta')
   }
 
  
