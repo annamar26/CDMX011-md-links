@@ -31,8 +31,6 @@ const brackets =  linea.substring(linea.indexOf('(')+1, linea.indexOf(')'))
 }           
  console.log(arrayResult)
   
-    console.log(arrayResult.length + ' links encontrados')
-  
 
 };
 module.exports = analizeFile
