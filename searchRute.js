@@ -1,48 +1,36 @@
-
-const process = require('process');
-const { readdir } = require('fs')
+const fs = require('fs')
 const path = require('path');
-const analizeFile = require('./analizeFile.js');
 
 
-let parameter = process.argv[2];  
 
-function search(givenpath){
-if(path.isAbsolute(givenpath)) {
- 
-readdir(givenpath, (err, data) => {
-  if (err) throw err;
 
-    data.forEach(element=>{
-    if(element.includes('.')){
-        const ext = path.extname(path.join(givenpath, element))
 
-        if(ext === '.md'){
-    
-        const fileRoute = path.join(givenpath, element);
-  
-        analizeFile(path.join(givenpath, element), fileRoute)
- 
+function search(givenpath) {
 
-    
+    let ruta = ''
+
+
+    fs.readdirSync(givenpath).forEach(file => {
+        if (fs.lstatSync(path.resolve(givenpath, file)).isDirectory()) {
+            search(path.join(givenpath, file))
+        } else {
+            const ext = path.extname(path.join(givenpath, file))
+            if (ext === '.md') {
+
+                ruta = path.join(givenpath, file);
+
+
+
+
+            }
+        }
+    });
+
+    return ruta
+
+
+
 }
 
-        
 
-    }else{
-     
-   search(path.join(givenpath, element))
-
-}})});
-
-
-
-}else{
-   const absPath = path.resolve(path.dirname(givenpath))
-  search(absPath)
- 
- 
-
-}
-}
-search(parameter)
+module.exports = search
