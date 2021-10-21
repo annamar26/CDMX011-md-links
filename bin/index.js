@@ -21,8 +21,6 @@ function showSpinner() {
 }
 
 
-
-
 function cli(options) {
 
     mdlinks(process.argv[2], options)
