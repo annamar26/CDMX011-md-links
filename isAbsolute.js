@@ -1,4 +1,5 @@
 const path = require('path')
+const process = require('process')
 
 function isAbsolute(route) {
 
@@ -6,7 +7,7 @@ function isAbsolute(route) {
     if (path.isAbsolute(route)) {
         return route
     } else {
-        const absPath = path.resolve(path.dirname(route))
+        const absPath = path.resolve(process.cwd(), route)
         return absPath
 
     }

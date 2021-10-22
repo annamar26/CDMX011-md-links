@@ -1,9 +1,9 @@
-const analizeFile = require('./analizeFile.js');
+const analizeFile = require('./analizeFile2.js');
 const search = require('./searchRute.js');
 const uniqueLinks = require('./uniqueLinks.js')
 const validate = require('./validateAxios.js');
 const isAbsolute = require('./isAbsolute.js');
-const { result } = require('lodash');
+
 
 
 function mdlinks(path, options) {

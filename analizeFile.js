@@ -1,4 +1,5 @@
-const { readFileSync } = require('fs')
+const { readFileSync } = require('fs');
+const { includes } = require('lodash');
 
 
 
@@ -16,7 +17,8 @@ function analizeFile(ruta) {
             const brackets = linea.substring(linea.indexOf('(') + 1, linea.indexOf(')'))
 
 
-            const re = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/
+            const re = /^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/s
+            const reg2 = /\www\.[a-zA-Z]{0,80}\.[a-zA-Z]{1,5}/s
             if (re.test(brackets)) {
                 const linkName = linea.substring(linea.indexOf('[') + 1, linea.indexOf(']'))
 
@@ -25,6 +27,11 @@ function analizeFile(ruta) {
 
 
 
+            } else if (reg2.test(brackets)) {
+
+                const linkName = linea.substring(linea.indexOf('[') + 1, linea.indexOf(']'))
+
+                arrayResult.push({ "href": brackets.slice(reg2), "file": ruta, "text": linkName, "line": lineas.indexOf(linea) })
             }
         }
 

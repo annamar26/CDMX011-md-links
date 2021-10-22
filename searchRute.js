@@ -3,30 +3,35 @@ const path = require('path');
 
 
 
-
+let arrayResult = []
 
 function search(givenpath) {
+    const absolute = path.resolve(givenpath);
+    let files = [];
+    if (fs.lstatSync(path.resolve(givenpath)).isFile() && path.extname(givenpath) == '.md') {
+        files = fs.readFileSync(absolute);
+    } else {
+        files = fs.readdirSync(absolute);
+    }
 
-    let ruta = ''
+
+    files.forEach(file => {
+        if (fs.lstatSync(path.resolve(givenpath, file)).isFile()) {
 
 
-    fs.readdirSync(givenpath).forEach(file => {
-        if (fs.lstatSync(path.resolve(givenpath, file)).isDirectory()) {
-            search(path.join(givenpath, file))
+            let ruta = { route: path.join(givenpath, file) };
+            arrayResult.push(ruta)
         } else {
-            const ext = path.extname(path.join(givenpath, file))
-            if (ext === '.md') {
-
-                ruta = path.join(givenpath, file);
+            search(path.join(givenpath, file));
 
 
 
 
-            }
         }
-    });
+    })
 
-    return ruta
+
+    return arrayResult
 
 
 
