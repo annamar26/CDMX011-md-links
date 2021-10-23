@@ -12,6 +12,7 @@ function validate(result) {
 
         })
         resolve(Promise.all(array))
+        reject(new Error('No se obtuvo informacion de los links'))
 
     })
 }

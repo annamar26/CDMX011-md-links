@@ -1,15 +1,28 @@
+const analizeFileTwo = require("./analizeFile2");
+const search = require("./searchRute");
+const isAbsolute = require('./isAbsolute.js')
 
-function unique(array){
+const result = [];
 
-    let data = array
+function unique(array) {
+    let obj = {}
 
-    const result = [];
-    data.forEach((item)=>{
-    	//pushes only unique element
-        if(!result.includes(item)){
-    		result.push(item);
-    	}
-    })
-    return result.length; 
+    for (const element of array) {
+        result.push(element.href)
+    }
+
+
+    const unique = result.filter((item, index) => {
+        return result.indexOf(item) === index
+    }).length
+    const total = result.length
+    obj = {
+        Unique: unique,
+        Total: total
+    }
+
+    return obj
+
 }
-module.exports= unique
+
+module.exports = unique
