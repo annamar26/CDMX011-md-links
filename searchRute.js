@@ -1,41 +1,27 @@
-const fs = require('fs')
+const fs = require('fs');
 const path = require('path');
-const process = require('process')
-const isAbsolute = require('./isAbsolute.js')
+const process = require('process');
+const isAbsolute = require('./isAbsolute.js');
 
-
-
-
-
-
-
-
-let arrayResult = []
+const arrayResult = [];
 
 function search(givenpath) {
+	if (fs.statSync(givenpath).isDirectory()) {
+		const list = fs.readdirSync(givenpath);
+		list.forEach(file => {
+			if (fs.statSync(path.join(givenpath, file)).isDirectory()) {
+				search(path.join(givenpath, file));
+			} else if (path.extname(path.join(givenpath, file)) === '.md') {
+				arrayResult.push(path.join(givenpath, file));
+			}
+		});
+	} else if (fs.statSync(givenpath).isFile()) {
+		if (path.extname(path.resolve(givenpath)) === '.md' || path.extname(path.resolve(givenpath)) === '.markdow') {
+			arrayResult.push(path.resolve(givenpath));
+		}
+	}
 
-
-
-    if (fs.statSync(givenpath).isDirectory()) {
-        const list = fs.readdirSync(givenpath)
-        list.forEach(file => {
-            if (fs.statSync(path.join(givenpath, file)).isDirectory()) {
-                search(path.join(givenpath, file))
-            } else if (path.extname(path.join(givenpath, file)) === '.md') { arrayResult.push(path.join(givenpath, file)) }
-        })
-
-    } else if (fs.statSync(givenpath).isFile()) {
-
-        if (path.extname(path.resolve(givenpath)) === '.md' | '.markdow') { arrayResult.push(path.resolve(givenpath)) }
-
-    }
-
-
-
-
-    return (arrayResult)
-
+	return (arrayResult);
 }
 
-
-module.exports = search
+module.exports = search;
