@@ -1,16 +1,16 @@
 function optionsParse(o1, o2) {
 
-    if (o1 === '--stats' || '--s' && o2 == null || undefined) {
+    if (o1 === '--stats' && o2 == null || undefined) {
         return 'stats'
-    } else if (o1 === '--validate' || '--v' && o2 == null || undefined) {
+    } else if (o1 === '--validate' && o2 == null || undefined) {
         return 'validate'
-    } else if (o1 === '--stats' || '--s' && o2 == '--validate' || '--v') {
+    } else if (o1 === '--stats' && o2 == '--validate') {
         return 'both'
-    } else if (o1 === '--validate' || '--v' && o2 == '--stats' || '--s') {
+    } else if (o1 === '--validate' && o2 == '--stats') {
         return 'both'
-    } else if (o1 === undefined || null && o2 == undefined || null) {
+    } else if (o1 === undefined && o2 == undefined) {
         return 'onlylinks'
-    } else if (o1 === "--help" || '--h') {
+    } else if (o1 === "--help") {
         return 'help'
     }
     return 'undefined'

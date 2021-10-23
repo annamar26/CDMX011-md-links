@@ -8,7 +8,7 @@ const mdlinks = require("../mdLinks.js")
 const colors = require('colors')
 const optionsParse = require("../parseOptions.js")
 const ora = require('ora');
-const { reject } = require('lodash');
+
 
 const spinner = ora('Loading unicorns').start()
 
@@ -16,19 +16,20 @@ const spinner = ora('Loading unicorns').start()
 function showSpinner() {
     new Promise((resolve, reject) => {
         spinner
-        resolve(cli(optionsParse(process.argv[3], process.argv[4])));
-        reject(spinner.stop())
+        resolve(cli(optionsParse(process.argv[3], process.argv[4]))),
+            reject(spinner.stop())
     });
 }
 
 
 function cli(options) {
 
+
     mdlinks(process.argv[2], options)
 
 
     .then((answer) => {
-        spinner.stop()
+
 
 
         let res
@@ -37,20 +38,22 @@ function cli(options) {
 
         switch (options) {
             case 'stats':
+                spinner.stop();
+
                 for (let i = 0; i < answer.length; i++) {
-                    if (answer[i].Total === 0) { console.error('No links found') } else {
+                    if (answer[i].Total === 0) { console.error('No links found'.bold.red) } else {
                         const total = 'Total:'.bold.cyan + answer[i].Total.toString().yellow
                         const unique = 'Unique:'.bold.cyan + answer[i].Unique.toString().yellow
 
                         res = total + '\n' + unique
-
+                        console.log(res)
                     }
 
-                }
-                console.log(res);
+                };
 
                 break;
             case 'validate':
+                spinner.stop()
                 if (answer.length === 0) {
                     console.error('No links found to validate'.bold.red)
                 } else {
@@ -73,14 +76,15 @@ function cli(options) {
 
 
                     }
+                    console.log(res)
                 }
 
-                console.log(res)
+
 
                 break;
             case 'both':
 
-
+                spinner.stop()
                 for (let i = 0; i < answer.length; i++) {
                     if (answer[i].Total === 0) {
                         console.error('No links found'.bold.red)
@@ -90,12 +94,14 @@ function cli(options) {
                         const broken = 'Broken:'.bold.brightRed + answer[i].Broken.toString().yellow
 
                         res = total + '\n' + unique + '\n' + broken
-
+                        console.log(res)
                     }
+
                 }
-                console.log(res)
+
                 break;
             case 'onlylinks':
+                spinner.stop()
                 if (answer.length === 0) {
                     console.error('No links found'.bold.red)
                 } else {
@@ -119,9 +125,10 @@ function cli(options) {
 
                 break;
             case 'undefined':
-                console.error('Enter a valid option, it can be --stats, --validate or both'.bold.red)
+                spinner.stop()
+                console.error('Enter a valid option, entre --help command to see the valid options'.bold.red)
 
-                break
+                break;
 
 
         }
@@ -129,10 +136,24 @@ function cli(options) {
 
 
     }).catch(error => {
-        spinner.stop()
+        /* spinner.stop() */
 
         if (error.errno === -2)
             console.error('No such file or directory found, enter a valid path'.bold.red)
     })
+
+    switch (options) {
+        case 'help':
+            spinner.stop()
+            console.log(
+                `--stats .............. shows links stats of links in given path
+--validate .............. validate links' http response and shows status code and message
+--validate --stats .............. shows total, unique and broken links of given path, also works if the commands are inverse
+--version ............ shows package version
+--help ............... shows help menu for a command`.padStart(30, ).bold.red)
+
+            break;
+    }
+
 }
 showSpinner()
