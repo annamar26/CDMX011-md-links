@@ -2,26 +2,15 @@
     "name": "md-links",
     "version": "0.1.0",
     "dependencies": {
-        "@octokit/auth-basic": "^1.4.8",
-        "@octokit/rest": "^18.12.0",
         "axios": "^0.23.0",
-        "chalk-cli-spinner": "^0.2.0",
         "cheerio": "^1.0.0-rc.10",
         "clear": "^0.1.0",
         "cli-spinners": "^2.6.1",
-        "clui": "^0.3.6",
         "colors": "^1.4.0",
-        "commander": "^8.2.0",
-        "configstore": "^6.0.0",
         "figlet": "^1.5.2",
-        "inquirer": "^8.2.0",
-        "linkinmark": "^1.0.5",
-        "lodash": "^4.17.21",
         "marked": "^3.0.7",
-        "minimist": "^1.2.5",
         "node-process": "^1.0.1",
-        "ora": "^6.0.1",
-        "simple-git": "^2.46.0"
+        "ora": "^6.0.1"
     },
     "main": "/bin/index.js",
     "bin": {
