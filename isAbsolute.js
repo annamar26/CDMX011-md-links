@@ -1,14 +1,8 @@
-const path = require('path')
-
+const path = require('path');
 
 function isAbsolute(route) {
-
-
-
-    const absPath = path.resolve(route)
-    return absPath
-
-
-
+	const absPath = path.resolve(route);
+	return absPath;
 }
-module.exports = isAbsolute
+
+module.exports = isAbsolute;

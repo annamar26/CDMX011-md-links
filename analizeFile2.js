@@ -1,58 +1,38 @@
-const marked = require("marked");
-const { readFileSync } = require('fs');
+const marked = require('marked');
+const {readFileSync} = require('fs');
 const cheerio = require('cheerio');
 
-
-
-const arrayResult = []
+const arrayResult = [];
 
 function analizeFileTwo(array) {
+	for (const path of array) {
+		const bf = readFileSync(path);
 
-    for (const path of array) {
-        const bf = readFileSync(path);
+		const str = bf.toString();
 
+		const lineas = str.split('\n');
+		for (const linea of lineas) {
+			const lineHtml = marked(linea);
 
-        const str = bf.toString()
+			const $ = cheerio.load(lineHtml);
 
+			const linkObjects = $('a');
 
-        const lineas = str.split('\n');
-        for (const linea of lineas) {
+			arrayResult.push({
+				text: $(linkObjects).text(), // Get the text
+				href: $(linkObjects).attr('href'), // Get the href attribute
+				line: linea.includes($(linkObjects).attr('href')) ? lineas.indexOf(linea) : null,
+				file: path,
 
+			});
+		}
+	}
 
-            const lineHtml = marked(linea);
+	const filtrado = arrayResult.filter(element => element.href !== undefined);
 
-            const $ = cheerio.load(lineHtml);
+	const secondfiltrado = filtrado.filter(element => element.href.charAt(0) !== '#');
 
-            const linkObjects = $('a');
-
-
-            arrayResult.push({
-                text: $(linkObjects).text(), // get the text
-                href: $(linkObjects).attr('href'), // get the href attribute
-                line: linea.includes($(linkObjects).attr('href')) ? lineas.indexOf(linea) : null,
-                file: path
-
-            });
-
-
-
-        }
-
-
-    }
-    var filtrado = arrayResult.filter(function(element) {
-        return element.href !== undefined
-
-
-    });
-
-    var secondfiltrado = filtrado.filter(function(element) {
-        return element.href.charAt(0) !== "#"
-
-
-    });
-
-    return (secondfiltrado)
+	return (secondfiltrado);
 }
 
-module.exports = analizeFileTwo
+module.exports = analizeFileTwo;

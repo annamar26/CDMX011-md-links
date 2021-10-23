@@ -1,13 +1,11 @@
-let brokenLinks = 0
+let brokenLinks = 0;
 
 function broken(links) {
+	for (const link of links) {
+		if (link.status === 'fail') {
+			brokenLinks += 1;
+		}
+	}
 
-
-    for (const link of links) {
-        if (link.status === 'fail') {
-            brokenLinks += 1
-        }
-    }
-
-    return brokenLinks
+	return brokenLinks;
 }
