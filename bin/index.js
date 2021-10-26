@@ -5,14 +5,11 @@ const colors = require('colors');
 const optionsParse = require('../parseOptions.js');
 const ora = require('ora');
 
-const spinner = ora('Loading unicorns').start();
+const spinner = ora('Loading data'.rainbow);
 
-function showSpinner() {
-	new Promise((resolve, reject) => {
-		spinner;
-		resolve(cli(optionsParse(process.argv[3], process.argv[4])));
-		reject(spinner.stop());
-	});
+async function showSpinner() {
+	spinner.start();
+	return await cli(optionsParse(process.argv[3], process.argv[4]));
 }
 
 function cli(options) {
@@ -21,10 +18,9 @@ function cli(options) {
 		.then(answer => {
 			let res;
 			const array = [];
-
+			spinner.stop();
 			switch (options) {
 				case 'stats':
-					spinner.stop();
 
 					for (let i = 0; i < answer.length; i++) {
 						if (answer[i].Total === 0) {
@@ -34,13 +30,14 @@ function cli(options) {
 							const unique = 'Unique:'.bold.cyan + answer[i].Unique.toString().yellow;
 
 							res = total + '\n' + unique;
+
 							console.log(res);
 						}
 					}
 
 					break;
 				case 'validate':
-					spinner.stop();
+
 					if (answer.length === 0) {
 						console.error('No links found to validate'.bold.red);
 					} else {
@@ -66,7 +63,6 @@ function cli(options) {
 					break;
 				case 'both':
 
-					spinner.stop();
 					for (let i = 0; i < answer.length; i++) {
 						if (answer[i].Total === 0) {
 							console.error('No links found'.bold.red);
@@ -76,13 +72,13 @@ function cli(options) {
 							const broken = 'Broken:'.bold.brightRed + answer[i].Broken.toString().yellow;
 
 							res = total + '\n' + unique + '\n' + broken;
+
 							console.log(res);
 						}
 					}
 
 					break;
 				case 'onlylinks':
-					spinner.stop();
 					if (answer.length === 0) {
 						console.error('No links found'.bold.red);
 					} else {
@@ -114,6 +110,7 @@ function cli(options) {
 			/* Spinner.stop() */
 
 			if (error.errno === -2) {
+				spinner.stop();
 				console.error('No such file or directory found, enter a valid path'.bold.red);
 			}
 		});
