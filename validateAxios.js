@@ -24,4 +24,4 @@ async function axiosValidate(objeto) {
 		}));
 }
 
-module.exports = validate;
+module.exports = {validate, axiosValidate};

@@ -9,3 +9,5 @@ function broken(links) {
 
 	return brokenLinks;
 }
+
+module.exports = broken;

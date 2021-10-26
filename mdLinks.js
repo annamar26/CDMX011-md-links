@@ -20,7 +20,7 @@ function mdlinks(path, options) {
 
 			case 'validate':
 			{
-				resolver(validate(analizeFile(search(isAbsolute(path)))).then(res => res));
+				resolver(validate.validate(analizeFile(search(isAbsolute(path)))).then(res => res));
 				rechazar(new Error('No links found'));
 
 				break;
@@ -28,7 +28,7 @@ function mdlinks(path, options) {
 
 			case 'both':
 			{
-				resolver(validate(analizeFile(search(isAbsolute(path))))
+				resolver(validate.validate(analizeFile(search(isAbsolute(path))))
 					.then(links => {
 						let broken = 0;
 						for (const link of links) {
